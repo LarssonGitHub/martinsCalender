@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .boxy {
+            background-color: chocolate;
+            padding: 0.2em;
+            margin: 0.5em 0;
+            display: inline-block;
+        }
+
+        #postForm,
+        #editContainer {
+            width: 300px;
+            margin: 1em 0;
+            border: solid 1px black;
+
+        }
+    </style>
+</head>
+
+<body>
+    <div id="calanderContainer">
+        <% jsonData.forEach(element => {  %>
+        <div class="boxy">
+            <p><%= element.title %> </p>
+            <button class="editBtn" id="<%= element.id %>"> Edit</button>
+        </div><%
+            }) %>
+    </div>
+    <div id="editContainer" hidden>
+        <button id="closeEditContainer">X</button>
+
+        <form id="EditForm">
+            <input type="hidden" id="custId" name="id" value="testValue">
+            <label for="title">Edit event:</label>
+            <input type="text" id="editTitle" name="editTitle">
+            <label for="date">Edit date:</label>
+            <input type="date" id="editDate" name="editDate">
+            <label for="startime">Edit startime:</label>
+            <input type="text" id="editStartime" name="editStartime">
+            <label for="endtime">Edit endtime:</label>
+            <input type="text" id="endEndtime" name="endEndtime">
+            <input type="submit" value="edit">
+            <!-- Add this event to the calender window instead? -->
+            <button id="deleteEvent">Delete this event.</button>
+
+        </form>
+    </div>
+
+
+    <form id="postForm">
+        <input type="hidden" id="custId" name="id" value="testValue">
+        <label for="title">give date:</label>
+        <input type="text" id="title" name="title" placeholder="möte">
+        <label for="date">give date:</label>
+        <input type="date" id="date" name="date">
+        <label for="starttime">give date:</label>
+        <input type="text" id="starttime" name="starttime" placeholder="14:25">
+        <label for="endtime">give date:</label>
+        <input type="text" id="endtime" name="endtime" placeholder="15:00">
+        <input type="submit" value="add">
+    </form>
+
+
+
+    <script>
+        const editContainer = document.getElementById("editContainer");
+        const calanderContainer = document.getElementById("calanderContainer")
+        const editBtn = document.querySelectorAll("editBtn")
+        let storedEventID;
+      
+        //edit values with express... Fetch
+        //https://github.com/CodingTrain/Intro-to-Data-APIs-JS/blob/source/module2/data_selfie_app/public/sketch.js
+        //https://www.youtube.com/watch?v=Kw5tC5nQMRY
+
+        //add
+        document.getElementById("postForm").addEventListener("submit", e => {
+            e.preventDefault()
+            const formData = new FormData(e.target);
+            const options = {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(Object.fromEntries(formData))
+            };
+            fetch('/', options);
+        })
+
+        //edit
+        document.getElementById("EditForm").addEventListener("submit", e => {
+            e.preventDefault()
+            const formData = new FormData(e.target);
+            const options = {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(Object.fromEntries(formData))
+            };
+            fetch('/' + storedEventID, options);
+        })
+
+        //delete
+        document.getElementById("deleteEvent").addEventListener("click", e => {
+            
+            let fakebody = {
+                id: storedEventID
+            };
+            console.log(fakebody);
+            e.preventDefault()
+            const options = {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(fakebody)
+            };
+            fetch('/' + storedEventID, options);
+        })
+
+        //Hide popup...
+        document.getElementById('closeEditContainer').addEventListener('click', () => {
+            editContainer.hidden = true;
+        })
+
+
+        calanderContainer.addEventListener("click", (e) => {
+            if (e.target.nodeName === "BUTTON") {
+                //Get id from the element you press.....!
+                let storedEventID =  e.target.id;
+                fetch('/' + storedEventID)
+                    .then(res => res.json())
+                    .then(objs => {
+                        showEditEvent(objs[0]);
+                    }).catch(err => {
+                        console.log(err.message);
+                    })
+            }
+         
+        });
+
+        //display edit values
+        function showEditEvent(obj) {
+            console.log(obj);
+            editContainer.hidden = false;
+            document.getElementById('custId').value = obj.id;
+            document.getElementById('editTitle').value = obj.title;
+            document.getElementById('editDate').value = obj.date;
+            document.getElementById('editStartime').value = obj.starttime;
+            document.getElementById('endEndtime').value = obj.endtime;
+        }
+
+        // //show events...
+        //Ask johannes.. Or I dunno....
+        // fetch('/')
+        //     .then(response => response.json())
+        //     .then(objs => {
+        //         console.log(objs);
+        //     })
+        //     .catch(error => {
+        //         console.error('Error:', error);
+        //     });
+    </script>
+</body>
+
+</html>
