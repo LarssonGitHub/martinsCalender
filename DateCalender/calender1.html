@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>calender</title>
+    <style>
+        body {
+            background-color: rgb(44, 43, 43);
+        }
+    </style>
+</head>
+<body>
+    
+    <div id="weekContainer">
+        <ul>
+            <li id="1"></li>
+            <li id="2"></li>
+            <li id="3"></li>
+            <li id="4"></li>
+            <li id="5"></li>
+            <li id="6"></li>
+            <li id="7"></li>
+        </ul>
+    </div>
+
+    <script>
+
+let date = new Date();
+
+let CurrentDate = document.querySelectorAll('#weekContainer > ul li');
+
+
+
+for (let itteratedWeekDate of CurrentDate) {
+    if (Number(itteratedWeekDate.id) === date.getDay()) {itteratedWeekDate.style.backgroundColor = "green"};
+   
+}
+  
+
+
+//to match a week...
+console.log(date);
+console.log("day of....", date.getDay()); //Since getday starts from 1....
+
+console.log("today dates is!!!     ", date.toLocaleString("sv-SE"));
+
+console.log("its' the month", date.getMonth() + 1);
+console.log("its' the year", date.getFullYear());
+console.log("date of....", date.getDate());
+
+
+    </script>
+</body>
+</html>

@@ -61,13 +61,14 @@
         <label for="date">give date:</label>
         <input type="date" id="date" name="date">
         <label for="starttime">give date:</label>
-        <input type="text" id="starttime" name="starttime" placeholder="14:25">
+        <input type="datetime" id="starttime" name="starttime" placeholder="14:25">
         <label for="endtime">give date:</label>
         <input type="text" id="endtime" name="endtime" placeholder="15:00">
         <input type="submit" value="add">
     </form>
 
-
+    <!-- use this -->
+<input type="datetime-local">
 
     <script>
         const editContainer = document.getElementById("editContainer");
@@ -96,6 +97,7 @@
         //edit
         document.getElementById("EditForm").addEventListener("submit", e => {
             e.preventDefault()
+            console.log(storedEventID);
             const formData = new FormData(e.target);
             const options = {
                 method: 'PUT',
@@ -109,18 +111,13 @@
 
         //delete
         document.getElementById("deleteEvent").addEventListener("click", e => {
-            
-            let fakebody = {
-                id: storedEventID
-            };
-            console.log(fakebody);
+            console.log(storedEventID);
             e.preventDefault()
             const options = {
                 method: 'DELETE',
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify(fakebody)
             };
             fetch('/' + storedEventID, options);
         })
@@ -134,7 +131,7 @@
         calanderContainer.addEventListener("click", (e) => {
             if (e.target.nodeName === "BUTTON") {
                 //Get id from the element you press.....!
-                let storedEventID =  e.target.id;
+                storedEventID =  e.target.id;
                 fetch('/' + storedEventID)
                     .then(res => res.json())
                     .then(objs => {

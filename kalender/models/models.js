@@ -103,9 +103,8 @@ function validateDeleteEvent(id) {
 
         // filter out the old product
         let filterNot = filterOut(id)
-        // console.log(filterNot);
-        // Save
-        // fs.writeFileSync('./data/dataEvents.json', JSON.stringify(filterNot), 'utf-8');
+ 
+        fs.writeFileSync('./data/dataEvents.json', JSON.stringify(filterNot), 'utf-8');
         return true;
     } catch (error) {
         console.log(error);

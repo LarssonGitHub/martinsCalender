@@ -45,7 +45,7 @@ function putEvent(req, res) {
     console.log("Edit event called");
 
     //A way to get id and make it better..
-    const id = req.body.id;
+    const id = req.params.id;
     const {
         body
     } = req;
@@ -67,10 +67,11 @@ function putEvent(req, res) {
 
 function deleteEvent(req, res) {
     console.log("delete Event called");
-  const id = req.param;
+  const id = req.params.id;
     console.log(id);
-    //YOU WERE HEEEHEHEHEHEHHREHRHEHREHREHRH!
-    // const success = models.validateDeleteEvent(id);
+   
+    
+    const success = models.validateDeleteEvent(id);
 
     if (success) {
         res.status(200).json({
