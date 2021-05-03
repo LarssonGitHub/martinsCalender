@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -11,46 +12,122 @@
         }
     </style>
 </head>
+
 <body>
-    
+
     <div id="weekContainer">
-        <ul>
-            <li id="1"></li>
-            <li id="2"></li>
-            <li id="3"></li>
-            <li id="4"></li>
-            <li id="5"></li>
-            <li id="6"></li>
-            <li id="7"></li>
-        </ul>
+
+        <!-- Id change to jsondataobject -->
+        <p class="domJsonObject" id="1"></p>
+        <p class="domJsonObject" id="2"></p>
+        <p class="domJsonObject" id="3"></p>
+        <p class="domJsonObject" id="4"></p>
+        <p class="domJsonObject" id="5"></p>
+        <p class="domJsonObject" id="6"></p>
+        <p class="domJsonObject" id="7"></p>
+
     </div>
+    <button id="reduceWeek">
+        left
+    </button>
+    <button id="incrementWeek">
+        right
+    </button>
 
     <script>
+        window.onload = function () {
+            calculateCurrentDay()
+        };
 
-let date = new Date();
+        const domJsonObject = document.querySelectorAll('.domJsonObject');
+        const reduceWeek = document.getElementById("reduceWeek");
+        const incrementWeek = document.getElementById("incrementWeek");
 
-let CurrentDate = document.querySelectorAll('#weekContainer > ul li');
+        let unalteredDate = new Date();
+        let date = new Date();
+        // date.setDate(date.getDate() + 3)
+        // unalteredDate.setDate(unalteredDate.getDate() + 4)
+
+        // Shady.....
+
+        function calculateNewWeek() {
+            console.log("in alt.", unalteredDate);
+            console.log("hhh", date);
+            let a;
+            a = 0;
+            for (let domJsonObjectChildren of domJsonObject) {
+             
+                //Add data-object...
+                date.setDate(date.getDate() + a);
+                
+                domJsonObjectChildren.innerHTML = date;
+
+                if (date.getTime() === unalteredDate.getTime()) {
+                    domJsonObjectChildren.style.backgroundColor = "green"
+                } else {
+                    domJsonObjectChildren.style.backgroundColor = "transparent"
+                }
+
+                // console.log(date)
+                a = 1;
+            }
+            date.setDate(date.getDate() - 6);
+        }
+
+
+        function calculateCurrentDay() {
+
+            let validateDay = date.getDay();
+            console.log(validateDay);
+            //Calcualte from monday
+
+            if (validateDay !== 1) {
+                if (validateDay === 0) {
+                    validateDay + 7;
+                }
+                date.setDate(date.getDate() - validateDay + 1);
+            }
+            console.log(date);
+            calculateNewWeek()
+        }
+
+        // console.log(date.toLocaleDateString("sv"))
+
+        reduceWeek.addEventListener('click', () => {
+            console.log("reduce");
+            date.setDate(date.getDate() - 7);
+            // console.log(date);
+            calculateNewWeek();
+        })
+
+
+        incrementWeek.addEventListener('click', () => {
+            console.log("increment");
+            date.setDate(date.getDate() + 7);
+            // console.log(date);
+            calculateNewWeek();
+
+        })
 
 
 
-for (let itteratedWeekDate of CurrentDate) {
-    if (Number(itteratedWeekDate.id) === date.getDay()) {itteratedWeekDate.style.backgroundColor = "green"};
-   
-}
-  
 
 
-//to match a week...
-console.log(date);
-console.log("day of....", date.getDay()); //Since getday starts from 1....
-
-console.log("today dates is!!!     ", date.toLocaleString("sv-SE"));
-
-console.log("its' the month", date.getMonth() + 1);
-console.log("its' the year", date.getFullYear());
-console.log("date of....", date.getDate());
+ 
 
 
+        //to match a week...
+        // console.log(date);
+        // console.log("day of....", date.getDay()); //Since getday starts from 1....
+
+        // console.log("today dates is!!!     ", date.toLocaleString("sv-SE"));
+
+        // console.log(date);
+
+        // console.log("its' the month", date.getMonth() + 1);
+        // console.log("its' the year", date.getFullYear());
+        // console.log("date of....", date.getDate());
     </script>
 </body>
+
 </html>
