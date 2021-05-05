@@ -1,0 +1,27 @@
+body {
+    background-color: rgb(44, 43, 43);
+}
+
+.event {
+    border: 1px solid black;
+}
+
+#weekContainer {
+    display: flex;
+    text-align: center;
+    justify-content: space-evenly;
+}
+.boxy {
+    background-color: chocolate;
+    padding: 0.2em;
+    margin: 0.5em 0;
+    display: inline-block;
+}
+
+#postForm,
+#editContainer {
+    width: 300px;
+    margin: 1em 0;
+    border: solid 1px black;
+
+}

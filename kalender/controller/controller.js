@@ -1,45 +1,44 @@
 import models from "../models/models.js";
 
+function getIndex(req, res) {
+    res.status(200).render('../public/views/index', {});
+}
 
 function getCalenderData(req, res) {
     console.log("getdata");
     let data = models.findAll();
-    // console.log(data);
-    // res.status(200).send();
-    res.status(200).render('index', {
-        jsonData: data
-    });
+    res.send(data);
 }
 
 function getIdProduct(req, res) {
     console.log("get id called");
     const id = req.params.id;
-    const canFind = models.finByID(id);
+    const data = models.findByID(id);
     //värdefull kontrol!
-    if (canFind.length > 0) {
-        res.status(200).send(canFind);
-    } else {
+    if (data.length === 0) {
         res.status(400).send({
             message: `Error 400, bad request dude, no id of ${id}`
         });
+        return;
     }
+    res.send(data);
 }
 
 function postEvent(req, res) {
-    console.log("postevnt event called");
+    console.log("post event called");
     const body = req.body;
     let validation = models.validatePostEvent(body);
-
-    if (validation) {
-        res.status(200).json({
-            message: "Product added!"
-        })
-    } else {
+    if (validation === false) {
         res.status(400).json({
-            message: "Product remove failed!"
+            message: "Failed to add new event!"
         });
+        return;
     }
+    res.status(200).json({
+        message: "New event added!"
+    })
 }
+
 
 function putEvent(req, res) {
     console.log("Edit event called");
@@ -50,38 +49,35 @@ function putEvent(req, res) {
         body
     } = req;
     console.log("this is...", id);
-    //henrys
-    // const success = models.validatePutEvent(id, body);
-    const success = models.validatePutEvent(id, body);
 
-    if (success) {
-        res.status(201).send({
-            message: "Product update!"
-        })
-    } else {
+    let validation = models.validatePutEvent(id, body);
+
+    if (validation === false) {
         res.status(400).send({
-            message: "Product update failed!"
+            message: "Couldn't edit event!"
         });
+        return;
     }
+    res.send({
+        message: "Event edited!"
+    })
 }
 
 function deleteEvent(req, res) {
     console.log("delete Event called");
-  const id = req.params.id;
+    const id = req.params.id;
     console.log(id);
-   
-    
-    const success = models.validateDeleteEvent(id);
-
-    if (success) {
-        res.status(200).json({
-            message: "Product removed!"
-        })
-    } else {
+    const validation = models.validateDeleteEvent(id);
+    console.log(validation);
+    if (validation === false) {
         res.status(400).json({
-            message: "Product remove failed!"
+            message: "Couldn't remove product"
         });
+        return;
     }
+    res.json({
+        message: "Product removed!"
+    });
 }
 
 export default {
@@ -89,5 +85,6 @@ export default {
     postEvent,
     getIdProduct,
     putEvent,
-    deleteEvent
+    deleteEvent,
+    getIndex
 };
