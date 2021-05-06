@@ -1,5 +1,6 @@
 import express from 'express';
 import dateController from './controller/controller.js';
+import path from 'path';
 // import path from 'path';
 // import fs from 'fs';
 const app = express();
@@ -9,7 +10,7 @@ const port = process.env.port || 3000;
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
-// app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(path.resolve(), 'public')));
 
 app.set('view engine', 'ejs')
 

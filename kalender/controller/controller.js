@@ -1,7 +1,7 @@
 import models from "../models/models.js";
 
 function getIndex(req, res) {
-    res.status(200).render('../public/views/index', {});
+    res.status(200).render('pages/index', {date:new Date()});
 }
 
 function getCalenderData(req, res) {

@@ -48,7 +48,7 @@ function validatePostEvent(body) {
             date: body.date || "Ej Angivet",
             starttime: body.starttime || "Ej Angivet",
             endtime: body.endtime || "Ej Angivet",
-            notes: body.notes || "Ej Angivet"
+            notes: body.notes || "Inga noteringar angivna"
         };
         parseJsonData.push(newEvent);
         writeToJsonArray(parseJsonData);
@@ -74,7 +74,7 @@ function validatePutEvent(id, body) {
             date: body.editDate || "you shouldn't see this",
             starttime: body.editStarttime || "you shouldn't see this",
             endtime: body.editEndtime || "you shouldn't see this",
-            notes: body.editNotes || "you shouldn't see this"
+            notes: body.editNotes || "Inga noteringar angivna"
         }
 
         let filterOutPut = filterOut(id);
@@ -93,6 +93,7 @@ function validateDeleteEvent(id) {
         const productExist = findByID(id);
 
         if (productExist.length === 0) {
+            console.log("If you see this, then I fucked up");
             throw `No product found with id ${id}`
         }
 
