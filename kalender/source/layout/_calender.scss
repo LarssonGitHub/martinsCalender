@@ -1,0 +1,23 @@
+
+.event {
+    border: 1px solid red;
+}
+
+#calanderContainer {
+    display: flex;
+    justify-content: space-evenly;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: space-evenly;
+    align-content: center;
+    align-items: stretch;
+}
+
+@media only screen and (max-width: 800px) {
+    #calanderContainer {
+        justify-content: space-evenly;
+        flex-direction: column;
+        flex-wrap: wrap;
+        align-content: stretch;
+    }
+  }

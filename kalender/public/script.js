@@ -4,13 +4,17 @@ window.onload = getData();
 
 const domDayObjects = document.querySelectorAll('.domDayObjects');
 const containerWeekDay = document.querySelectorAll('.containerWeekDay');
-const reduceWeek = document.getElementById("reduceWeek");
-const incrementWeek = document.getElementById("incrementWeek");
-const postForm = document.getElementById("postForm");
-const putForm = document.getElementById("EditForm");
-const editContainer = document.getElementById("editContainer");
-const deleteEvent = document.getElementById("deleteEvent");
+const reduceWeek = document.getElementById('reduceWeek');
+const incrementWeek = document.getElementById('incrementWeek');
+const postForm = document.getElementById('postForm');
+const putForm = document.getElementById('EditForm');
+const editContainer = document.getElementById('editContainer');
+const deleteEvent = document.getElementById('deleteEvent');
 const closeEditContainerBtn = document.getElementById('closeEditContainerBtn');
+const closePostContainerBtn = document.getElementById('closePostContainerBtn');
+const postDataEventBtn = document.getElementById('postDataEventBtn');
+const postContainer = document.getElementById('postContainer')
+
 //global Date 
 let unalteredDate = new Date();
 let date = new Date();
@@ -34,12 +38,19 @@ function showshowEditEventValues(eventValues) {
     document.getElementById('editNotes').value = eventValues.notes;
 }
 
-//display edit values
+//display alter and post sections
 function showEditEventContainer(eventValues) {
     // console.log(eventValues);
     editContainer.hidden = false;
+    postContainer.hidden = true;
     showshowEditEventValues(eventValues)
 }
+
+function showPostEventContainer() {
+    postContainer.hidden = false;
+    editContainer.hidden = true;
+}
+
 
 // functions for manipulating and appending dom.
 
@@ -52,18 +63,12 @@ function setDomDataObject(domDataObject, a) {
     domDataObject.dataset.date = date.toLocaleString("sv-SE").slice(0, 10);
 }
 
-function markCurrentDay(domDataObject) {
-    //Mark current local date
-    if (date.getTime() === unalteredDate.getTime()) {
-        domDataObject.style.backgroundColor = "green"
-    } else {
-        domDataObject.style.backgroundColor = "transparent"
-    }
-}
-
 function setDomDaydate(domDataObject) {
-    //Shit solution
-    domDataObject.innerHTML = ` <div class="currentDate">${date.toLocaleString("sv-SE").slice(5, 10)}</div>`
+    if (date.getTime() === unalteredDate.getTime()) {
+        domDataObject.innerHTML = ` <p class="todaysDate CurrentDay">${date.toLocaleString("sv-SE").slice(5, 10)}</p>`
+        return;
+    } 
+    domDataObject.innerHTML = ` <p class="CurrentDay">${date.toLocaleString("sv-SE").slice(5, 10)}</p>`
 }
 
 function cleanDomEvents(domDataObject) {
@@ -77,7 +82,6 @@ function alterDomDataAttribute() {
         setDomDataObject(domDataObject, a)
         cleanDomEvents(domDataObject)
         setDomDaydate(domDataObject)
-        markCurrentDay(domDataObject)
         a = 1;
     }
     date.setDate(date.getDate() - 6);
@@ -95,7 +99,7 @@ function appendEventToDom(jsonDateEvents) {
         newDiv.classList.add("event");
         newDiv.id = jsonDateEvent.id;
         newDiv.innerHTML =
-            `<p>${jsonDateEvent.title}</p><p>Tid ${jsonDateEvent.starttime}-${jsonDateEvent.endtime}</p><button class="editBtn">More</button>`;
+            `<p>${jsonDateEvent.title}</p><p>Tid ${jsonDateEvent.starttime}-${jsonDateEvent.endtime}</p><button class="alterDataBtn">More</button>`;
         fragments.appendChild(newDiv);
     }
     return fragments;
@@ -163,7 +167,9 @@ domDayObjects.forEach(eventContainer => {
 //Event post
 postForm.addEventListener("submit", e => {
     e.preventDefault()
+   
     const formData = new FormData(e.target);
+    console.log(Object.fromEntries(formData));
     const options = {
         method: 'POST',
         headers: {
@@ -246,4 +252,12 @@ incrementWeek.addEventListener('click', () => {
 
 closeEditContainerBtn.addEventListener('click', () => {
     editContainer.hidden = true;
+})
+
+closePostContainerBtn.addEventListener('click', () => {
+    postContainer.hidden = true;
+})
+
+postDataEventBtn.addEventListener('click', () => {
+    showPostEventContainer()
 })
