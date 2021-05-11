@@ -23,6 +23,9 @@ let date = new Date();
 // date.setDate(date.getDate() + 3)
 // unalteredDate.setDate(unalteredDate.getDate() + 4)
 
+// Array for days
+const calenderDays = ["SÖNDAG", "MÅNDAG", "TISDAG", "ONSDAG", "TORSDAG", "FREDAG", "LÖRDAG"]
+
 // Stores id respective data from fetch requests
 let jsonApiEvents;
 let storedEventID;
@@ -58,17 +61,22 @@ function domResponseFromApi(alertText) {
     alert(alertText)
 }
 
-function setDomDataObject(domDataObject, a) {
-    date.setDate(date.getDate() + a);
+function setDomDataObject(domDataObject, currentDayOffset) {
+    date.setDate(date.getDate() + currentDayOffset);
     domDataObject.dataset.date = date.toLocaleString("sv-SE").slice(0, 10);
 }
 
-function setDomDaydate(domDataObject) {
+function setDomDaydate(AlterDomDateHeading, currentDayOffset) {
+    date.setDate(date.getDate() + currentDayOffset);
     if (date.getTime() === unalteredDate.getTime()) {
-        domDataObject.innerHTML = ` <p class="todaysDate CurrentDay">${date.toLocaleString("sv-SE").slice(5, 10)}</p>`
+        AlterDomDateHeading.classList.add("todaysDate")
+        AlterDomDateHeading.innerHTML = `<h2 class="domDate">${date.toLocaleString("sv-SE").slice(5, 10)}</h2><h4 class="domDay">${calenderDays[date.getDay()]}</h4>`
         return;
     } 
-    domDataObject.innerHTML = ` <p class="CurrentDay">${date.toLocaleString("sv-SE").slice(5, 10)}</p>`
+
+    //Must be a better way.... For some reason.. todaysDate stays, even when replaying function...
+    AlterDomDateHeading.classList.remove("todaysDate")
+    AlterDomDateHeading.innerHTML = `<h2 class="domDate">${date.toLocaleString("sv-SE").slice(5, 10)}</h2><h4 class="domDay">${calenderDays[date.getDay()]}</h4>`
 }
 
 function cleanDomEvents(domDataObject) {
@@ -76,13 +84,18 @@ function cleanDomEvents(domDataObject) {
 }
 
 function alterDomDataAttribute() {
-    let a;
-    a = 0;
+    //extremly shady build to append date..... Need to use something else than 2 for of loops..
+    let currentDayOffset;
+    currentDayOffset = 0;
     for (let domDataObject of domDayObjects) {
-        setDomDataObject(domDataObject, a)
+        setDomDataObject(domDataObject, currentDayOffset)
         cleanDomEvents(domDataObject)
-        setDomDaydate(domDataObject)
-        a = 1;
+        currentDayOffset = 1;
+    }
+    currentDayOffset = -6;
+    for (let AlterDomDateHeading of containerWeekDay) {
+        setDomDaydate(AlterDomDateHeading, currentDayOffset)
+        currentDayOffset = 1;
     }
     date.setDate(date.getDate() - 6);
 }
@@ -99,7 +112,7 @@ function appendEventToDom(jsonDateEvents) {
         newDiv.classList.add("event");
         newDiv.id = jsonDateEvent.id;
         newDiv.innerHTML =
-            `<p>${jsonDateEvent.title}</p><p>Tid ${jsonDateEvent.starttime}-${jsonDateEvent.endtime}</p><button class="alterDataBtn">More</button>`;
+            `<p class="eventTitle" >${jsonDateEvent.title}</p><p class="eventTime" >${jsonDateEvent.starttime}-${jsonDateEvent.endtime}</p><button class="alterDataBtn">Ändra</button>`;
         fragments.appendChild(newDiv);
     }
     return fragments;

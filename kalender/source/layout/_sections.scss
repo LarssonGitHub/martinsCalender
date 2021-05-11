@@ -1,9 +1,25 @@
 
 .formPosition {
-    background-color: chartreuse;
+    @include shadowBigContainer;
+    background-color: $StandardSecondContainerColor;
     position: fixed;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+    width: 30%;
+    padding: $mediumPadding;
+    @include mainBorderBox;
+    * {
+        display: block;
+        border: none;
+        border-radius: $standardBorderRadius;
+    }
+    input, textarea {
+        padding: $mediumPadding;
+        margin: $mediumMargin 0;
+        width: 100%;
+    }
+    h2 {
+        margin: $mediumMargin 0;
+    }
 }
-

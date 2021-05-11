@@ -1,5 +1,42 @@
-
-.todaysDate {
-    background-color: chartreuse;
+.ChangeWeekBtn{
+    @include btnStyle;
+    min-width: 250px;
+    padding: $mediumPadding;
 }
 
+#postDataContainer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: $extraLargeMargin;
+    #postDataEventBtn  {
+        @include btnStyle;
+        padding: $mediumPadding;
+        width: 40%;
+    }
+}
+
+.inputBtn {
+    @include btnStyle;
+    padding: $mediumPadding;
+}
+
+#closeEditContainerBtn, #closePostContainerBtn {
+    background-color: $secondaryBtnColor;
+    color: $fontColorSecondary;
+    padding: $standardPadding;
+    border: none;
+    border-radius: $standardBorderRadius;
+    cursor: pointer;
+}
+
+.alterDataBtn {
+    @include btnStyle;
+    padding: $standardPadding;
+}
+
+@media only screen and (max-width: 860px) {
+    .ChangeWeekBtn{
+        min-width: 100%;
+    }
+}

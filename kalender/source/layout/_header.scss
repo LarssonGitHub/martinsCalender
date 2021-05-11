@@ -1,8 +1,43 @@
 #headerContainer {
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
+    justify-content:space-between;
     flex-wrap: nowrap;
-    align-items: stretch;
+    align-items: center;
     align-content: center;
+    margin: $extraLargeMargin;
 }
+
+@media only screen and (max-width: 860px) {
+    #headerContainer {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        grid-template-rows: repeat(2, 1fr);
+        gap: 1rem;
+        h1 {
+            grid-column-start: 1;
+            grid-column-end: 3;
+            grid-row-start: 1;
+            grid-row-end: 2;
+            align-self: center;
+            justify-self: center;
+        }
+        #reduceWeek {
+            grid-column-start: 1;
+            grid-column-end: 2;
+            grid-row-start: 2;
+            grid-row-end: 3;
+            align-self: center;
+            justify-self: center;
+        }
+        #incrementWeek {
+            grid-column-start: 2;
+            grid-column-end: 3;
+            grid-row-start: 2;
+            grid-row-end: 3;
+            align-self: center;
+            justify-self: center;
+        }
+    }
+}
+

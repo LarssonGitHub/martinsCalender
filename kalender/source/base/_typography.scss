@@ -1,0 +1,46 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+
+body {
+    color: $mainFontColor;
+}
+
+.containerWeekDay {
+    .domDate {
+        font-size: 2rem;
+        letter-spacing: 0;
+        font-weight: 300;
+    }
+    .domDay {
+        font-size: 0.825rem;
+        letter-spacing: 2px;
+        font-weight: 400;
+    }
+}
+
+.event {
+    font-size: 1.2rem;
+   .eventTitle {
+    font-weight: 600;
+   }
+}
+
+.formPosition {
+    input, textarea {
+        font-size: 1rem;
+    }
+}
+
+.ChangeWeekBtn, #postDataEventBtn,.inputBtn, label {
+    font-size: 1.2rem;
+    font-weight: 500;
+}
+
+#closeEditContainerBtn, #closePostContainerBtn {
+    font-size: 1rem;
+    font-weight: 800;
+}
+
+.alterDataBtn {
+    font-size: 0.8rem;
+    font-weight: 500;
+}

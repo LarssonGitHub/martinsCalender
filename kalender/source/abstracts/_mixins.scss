@@ -1,0 +1,30 @@
+@mixin shadowBigContainer {
+    box-shadow: 0 4px 8px 0 $shadowColor, 0 1px 10px 0 $shadowColor;
+  }
+
+  @mixin shadowSmallContainer {
+    box-shadow: 0 1px 2px 0 $shadowColor, 0 1px 3px 0 $shadowColor;
+  }
+
+  @mixin mainBorderBox {
+    border-top: 2px double $borderColor;
+    border-right: none;
+    border-bottom: none;
+    border-left: 5px double $borderColor;
+    border-radius: 1rem 0.5rem 0.2rem;
+  }
+  @mixin btnStyle {
+    border: none;
+    text-align: center;
+    color: $fontColorSecondary;
+    text-decoration: none;
+    border-radius: $standardBorderRadius;
+    @include shadowSmallContainer;
+    cursor: pointer;
+    background-color: $mainBtnColor;
+    &:hover {
+        color: $mainBtnColor;
+        background-color: $mainBtnColorHoover;
+      
+    }
+  }

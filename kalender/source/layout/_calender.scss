@@ -1,6 +1,17 @@
+body {
+    background-color: $standardFourthColor;
+    margin: $extraLargeMargin 0;
+}
 
-.event {
-    border: 1px solid red;
+//if screen is smaller then 320, it becomes statuc
+@media only screen and (max-width: 320px) {
+    body {
+        width:  320px;
+    }
+ }
+
+.todaysDate {
+    background-color: $todaysDateColor !important;
 }
 
 #calanderContainer {
@@ -11,13 +22,52 @@
     justify-content: space-evenly;
     align-content: center;
     align-items: stretch;
+    margin: 1rem 2rem;
+
+    .calenderContainerChild {
+        @include shadowBigContainer;
+        @include mainBorderBox;
+        margin: $standardMargin;
+        width: 100%;
+        min-height: 60vh;
+        background-color: $standardContainerColor;
+    }
+
+    .containerWeekDay {
+        text-align: center;
+        border-radius: 1rem 0.5rem 0.2rem;
+        background-color: $StandardSecondContainerColor;
+        padding: $standardPadding 0;
+        margin-bottom: $mediumMargin;
+        @include shadowSmallContainer;
+        .domDate,  .domDay  {
+            margin: $minMargin 0;
+        }
+    }
+
+    .event {
+        text-align: left;
+        margin: 0.75rem 0.4rem;
+        border-left: 3px solid $mainFontColor;
+        border-bottom-right-radius: 0.5rem;
+        border-top-right-radius: 0.5rem;
+        background-color: $StandardThirdContainerColor;
+        padding: $mediumPadding 0  $mediumPadding $mediumPadding;
+        @include shadowSmallContainer;
+        .eventTitle, .eventTime {
+        margin: $standardMargin 0;
+        }
+    }
 }
 
-@media only screen and (max-width: 800px) {
+@media only screen and (max-width: 1200px) {
     #calanderContainer {
         justify-content: space-evenly;
         flex-direction: column;
         flex-wrap: wrap;
         align-content: stretch;
+        .calenderContainerChild {
+            min-height: 30vh;
+        }
     }
-  }
+}
