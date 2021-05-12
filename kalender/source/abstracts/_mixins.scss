@@ -28,3 +28,8 @@
       
     }
   }
+
+@mixin gridCenter {
+  align-self: center;
+  justify-self: center;
+}

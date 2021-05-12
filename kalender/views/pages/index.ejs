@@ -12,17 +12,12 @@
 <body>
 
     <header id="headerContainer">
-
         <div class="ChangeWeekBtn" id="reduceWeek">
-            Nästa vecka
         </div>
-        <h1>Martins Kalender</h1>
+        <div id="fullDateHeading"></div>
         <div class="ChangeWeekBtn" id="incrementWeek">
-            Tidigare vecka
         </div>
     </header>
-
-
 
     <section id="editContainer" class="formPosition" hidden>
 
@@ -42,10 +37,10 @@
             <input type="time" id="editEndtime" name="editEndtime" required>
             <label for="editNotes">Ändra noteringar:</label>
             <textarea id="editNotes" name="editNotes"></textarea>
-            <input type="submit" class="inputBtn" value="edit">
-            <input type="button" class="inputBtn" id="deleteEvent" value="Delete this event">
+            <input type="submit" class="inputBtn" value="Ändra">
+            <input type="button" class="inputBtn" id="deleteEvent" value="Ta bort event">
             <!-- Add this event to the calender window instead? -->
-           
+
 
         </form>
     </section>
@@ -56,38 +51,38 @@
     <main id="calanderContainer">
 
         <!-- Id change to jsondataobject -->
-        <div  class="calenderContainerChild" id="mandag">
-            <div class="containerWeekDay"><h3>Måndag</h3></div>
+        <div class="calenderContainerChild" id="mandag">
+            <div class="containerWeekDay"></div>
             <div class="domDayObjects"></div>
             <!-- <button class="postDataBtns">+</button> -->
         </div>
-        <div  class="calenderContainerChild" id="tisdag">
-            <div class="containerWeekDay"><h3>Tisdag</h3></div>
+        <div class="calenderContainerChild" id="tisdag">
+            <div class="containerWeekDay"></div>
             <div class="domDayObjects"></div>
             <!-- <button class="postDataBtns">+</button> -->
         </div>
-        <div  class="calenderContainerChild" id="onsdag">
-            <div class="containerWeekDay"><h3>Onsdag</h3></div>
+        <div class="calenderContainerChild" id="onsdag">
+            <div class="containerWeekDay"></div>
             <div class="domDayObjects"></div>
             <!-- <button class="postDataBtns">+</button> -->
         </div>
-        <div  class="calenderContainerChild" id="torsdag">
-            <div class="containerWeekDay"><h3>Torsdag</h3></div>
+        <div class="calenderContainerChild" id="torsdag">
+            <div class="containerWeekDay"></div>
             <div class="domDayObjects"></div>
             <!-- <button class="postDataBtns">+</button> -->
         </div>
-        <div  class="calenderContainerChild" id="fredag">
-            <div class="containerWeekDay"><h3>Fredag</h3></div>
+        <div class="calenderContainerChild" id="fredag">
+            <div class="containerWeekDay"></div>
             <div class="domDayObjects"></div>
             <!-- <button class="postDataBtns">+</button> -->
         </div>
-        <div  class="calenderContainerChild" id="lordag">
-            <div class="containerWeekDay"><h3>Lördag</h3></div>
+        <div class="calenderContainerChild" id="lordag">
+            <div class="containerWeekDay"></div>
             <div class="domDayObjects"></div>
             <!-- <button class="postDataBtns">+</button> -->
         </div>
-        <div  class="calenderContainerChild" id="sondag">
-            <div class="containerWeekDay"><h3>Söndag</h3></div>
+        <div class="calenderContainerChild" id="sondag">
+            <div class="containerWeekDay"></div>
             <div class="domDayObjects"></div>
             <!-- <button class="postDataBtns">+</button> -->
         </div>
@@ -95,11 +90,11 @@
     </main>
 
     <div id="postDataContainer">
-    <button id="postDataEventBtn">Posta ett nytt event</button>
-</div>
+        <button id="postDataEventBtn">Lägg till nytt event</button>
+    </div>
     <section id="postContainer" class="formPosition" hidden>
         <button id="closePostContainerBtn">X</button>
-        <h2>Posta ett nytt event</h2>
+        <h2>Nytt event</h2>
         <form id="postForm">
             <input type="hidden" id="custId" name="id" value="">
             <label for="title">Event:</label>
@@ -111,8 +106,8 @@
             <label for="endtime">Sluttid:</label>
             <input type="time" id="endtime" name="endtime" placeholder="15:00" required>
             <label for="notes">Noteringar:</label>
-            <textarea id="notes" name="notes" placeholder="Ange egen notering"></textarea>
-            <input type="submit" class="inputBtn" value="Posta nytt event">
+            <textarea id="notes" name="notes" placeholder="Ange valfri notering (frivilligt)"></textarea>
+            <input type="submit" class="inputBtn" value="Lägg till">
         </form>
     </section>
 

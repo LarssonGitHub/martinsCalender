@@ -13,21 +13,19 @@ const deleteEvent = document.getElementById('deleteEvent');
 const closeEditContainerBtn = document.getElementById('closeEditContainerBtn');
 const closePostContainerBtn = document.getElementById('closePostContainerBtn');
 const postDataEventBtn = document.getElementById('postDataEventBtn');
-const postContainer = document.getElementById('postContainer')
+const postContainer = document.getElementById('postContainer');
+const fullDateHeading = document.getElementById('fullDateHeading');
 
 //global Date 
 let unalteredDate = new Date();
 let date = new Date();
 
-// För date Debugging
-// date.setDate(date.getDate() + 3)
-// unalteredDate.setDate(unalteredDate.getDate() + 4)
-
 // Array for days
 const calenderDays = ["SÖNDAG", "MÅNDAG", "TISDAG", "ONSDAG", "TORSDAG", "FREDAG", "LÖRDAG"]
+const calenderMonths = [ "JANUARI", "FEBRUARI", "MARS", "APRIL", "MAJ", "JUNI", "JULI", "AUGUSTI", "SEPTEMBER", "OKTOBER", "NOVEMBER", "DECEMBER"]
 
 // Stores id respective data from fetch requests
-let jsonApiEvents;
+let jsonApiData;
 let storedEventID;
 
 //Hide popup...
@@ -61,51 +59,55 @@ function domResponseFromApi(alertText) {
     alert(alertText)
 }
 
-function setDomDataObject(domDataObject, currentDayOffset) {
-    date.setDate(date.getDate() + currentDayOffset);
+function setDomDataObject(domDataObject) {
     domDataObject.dataset.date = date.toLocaleString("sv-SE").slice(0, 10);
 }
 
-function setDomDaydate(AlterDomDateHeading, currentDayOffset) {
-    date.setDate(date.getDate() + currentDayOffset);
+function setDomDaydate(AlterDomDateHeading) {
+    AlterDomDateHeading.classList.remove("todaysDate")
+    AlterDomDateHeading.innerHTML = `<h2 class="domDate">${date.getDate()}/${date.getMonth() + 1}</h2><h4 class="domDay">${calenderDays[date.getDay()]}</h4>`
+
     if (date.getTime() === unalteredDate.getTime()) {
         AlterDomDateHeading.classList.add("todaysDate")
-        AlterDomDateHeading.innerHTML = `<h2 class="domDate">${date.toLocaleString("sv-SE").slice(5, 10)}</h2><h4 class="domDay">${calenderDays[date.getDay()]}</h4>`
-        return;
     } 
-
-    //Must be a better way.... For some reason.. todaysDate stays, even when replaying function...
-    AlterDomDateHeading.classList.remove("todaysDate")
-    AlterDomDateHeading.innerHTML = `<h2 class="domDate">${date.toLocaleString("sv-SE").slice(5, 10)}</h2><h4 class="domDay">${calenderDays[date.getDay()]}</h4>`
 }
 
-function cleanDomEvents(domDataObject) {
+function cleanOldHtmlEvents(domDataObject) {
     domDataObject.innerHTML = "";
 }
 
-function alterDomDataAttribute() {
-    //extremly shady build to append date..... Need to use something else than 2 for of loops..
-    let currentDayOffset;
-    currentDayOffset = 0;
-    for (let domDataObject of domDayObjects) {
-        setDomDataObject(domDataObject, currentDayOffset)
-        cleanDomEvents(domDataObject)
-        currentDayOffset = 1;
-    }
-    currentDayOffset = -6;
+function incrementDateObject (itteration) {
+    date.setDate(date.getDate() + itteration);
+}
+
+function reduceDateObject (itteration) {
+    date.setDate(date.getDate() - itteration);
+}
+
+function manipulateDomElements() {
     for (let AlterDomDateHeading of containerWeekDay) {
-        setDomDaydate(AlterDomDateHeading, currentDayOffset)
-        currentDayOffset = 1;
+        setDomDaydate(AlterDomDateHeading)
+        incrementDateObject(1)
     }
-    date.setDate(date.getDate() - 6);
+    reduceDateObject(7) 
 }
 
-function filterJsonApiAfterDateEvents(domObject) {
-    return jsonApiEvents.filter(event => event.date === domObject.dataset.date)
+function alterDomDataAttribute() {
+    for (let domDataObject of domDayObjects) {
+        setDomDataObject(domDataObject)
+        cleanOldHtmlEvents(domDataObject)
+        incrementDateObject(1)
+    }
+    reduceDateObject(7) 
 }
 
-function appendEventToDom(jsonDateEvents) {
-    //remember to use fragment martin.. 
+function filterJsonData(domObject) {
+    return jsonApiData.filter(data => data.date === domObject.dataset.date)
+ 
+}
+
+function appendEventToHtml(jsonDateEvents) {
+    //remember to use fragment martin.. Must be a better way... 
     let fragments = new DocumentFragment();
     for (jsonDateEvent of jsonDateEvents) {
         let newDiv = document.createElement("div");
@@ -118,29 +120,61 @@ function appendEventToDom(jsonDateEvents) {
     return fragments;
 }
 
-function appendDomData() {
+function sortAPiDataAndAppendToHtmlCalender() {
     for (let domObject of domDayObjects) {
-        let jsonDateEvents = filterJsonApiAfterDateEvents(domObject);
-        let fragment = appendEventToDom(jsonDateEvents)
+        let jsonDateEvents = filterJsonData(domObject);
+        let fragment = appendEventToHtml(jsonDateEvents)
         domObject.appendChild(fragment);
     }
 }
 
-function modifyDomWeek() {
-    alterDomDataAttribute()
-    appendDomData()
+function offsetDateObjectToMonday() {
+    //Whoever made the date and day object with 1 resp 0 hated the world...
+    let validateMonday = date.getDay() || 7;
+    date.setDate(date.getDate() - validateMonday + 1);
+    // console.log(date);
 }
 
-function calculateCurrentDay() {
-    let validateDay = date.getDay();
-    if (validateDay !== 1) {
-        if (validateDay === 0) {
-            validateDay + 7;
-        }
-        date.setDate(date.getDate() - validateDay + 1);
-    }
-    modifyDomWeek()
+function alterDataAndDom() {
+    offsetDateObjectToMonday()
+    alterDomDataAttribute()
+    manipulateDomElements()
+    sortAPiDataAndAppendToHtmlCalender()
+    getWeekAndAppendToHtmlHeader()
 }
+
+function getWeek() {
+    //No getWeek() in javascript... WHYYYYYYY?
+    let validateMonday = date.getDay() || 7;
+    date.setDate(date.getDate() - validateMonday + 1);
+    date.setDate(date.getDate() + 4 - validateMonday);   
+    var yearStart = new Date(date.getFullYear(), 0, 1);
+    let currentWeek = Math.ceil((((date - yearStart) / 86400000) - 1)/7);
+    date.setDate(date.getDate() - 4 + validateMonday);
+    return currentWeek;
+}
+
+function appendHtmlToHeading(currentWeek) {
+fullDateHeading.innerHTML =  `<h3 id="year"> ${date.getFullYear()}</h3> <h1 id="week">Vecka: ${currentWeek}</h1> <h3 id="month"> ${calenderMonths[date.getMonth()]}</h3>`;
+}
+
+function appendHtmlToHeaderIncrementWeekBtn(currentWeek) {
+    currentWeek += 1;
+    incrementWeek.textContent = 'V: ' + currentWeek;
+}
+
+function appendHtmlToHeaderReduceWeekBtn(currentWeek) {
+    currentWeek -= 1;
+    reduceWeek.textContent = 'V: ' + currentWeek;
+}
+
+function getWeekAndAppendToHtmlHeader() { 
+    let currentWeek = getWeek()
+    appendHtmlToHeading(currentWeek)
+    appendHtmlToHeaderIncrementWeekBtn(currentWeek)
+    appendHtmlToHeaderReduceWeekBtn(currentWeek)
+}
+
 
 // Fetch Data
 
@@ -149,8 +183,8 @@ function getData() {
     fetch('/api/')
         .then(resp => resp.json())
         .then(data => {
-            jsonApiEvents = data;
-            calculateCurrentDay()
+            jsonApiData = data;
+            alterDataAndDom()
         }).catch((error) => {
             console.error('Error:', error);
         });
@@ -203,7 +237,6 @@ postForm.addEventListener("submit", e => {
         });
 })
 
-
 //put
 putForm.addEventListener("submit", e => {
     e.preventDefault()
@@ -252,15 +285,14 @@ deleteEvent.addEventListener("click", e => {
 
 reduceWeek.addEventListener('click', () => {
     console.log("reduce");
-    date.setDate(date.getDate() - 7);
-    modifyDomWeek();
+    reduceDateObject(7)
+    alterDataAndDom();
 })
-
 
 incrementWeek.addEventListener('click', () => {
     console.log("increment");
-    date.setDate(date.getDate() + 7);
-    modifyDomWeek();
+    incrementDateObject(7)
+    alterDataAndDom();
 })
 
 closeEditContainerBtn.addEventListener('click', () => {
@@ -274,3 +306,4 @@ closePostContainerBtn.addEventListener('click', () => {
 postDataEventBtn.addEventListener('click', () => {
     showPostEventContainer()
 })
+
