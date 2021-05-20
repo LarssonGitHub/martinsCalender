@@ -12,9 +12,31 @@
 <body>
 
     <header id="headerContainer">
+        <div id="postDataContainer">
+            <button id="postDataEventBtn">Lägg till nytt event</button>
+        </div>
+        <section id="postContainer" class="formPosition" hidden>
+            <button id="closePostContainerBtn">X</button>
+            <h2>Nytt event</h2>
+            <form id="postForm">
+                <input type="hidden" id="custId" name="id">
+                <label for="title">Event:</label>
+                <input type="text" id="title" name="title" placeholder="möte" required>
+                <label for="date">Datum:</label>
+                <input type="date" id="date" name="date" required>
+                <label for="starttime">Starttid:</label>
+                <input type="time" id="starttime" name="starttime" placeholder="14:25" required>
+                <label for="endtime">Sluttid:</label>
+                <input type="time" id="endtime" name="endtime" placeholder="15:00" required>
+                <label for="notes">Noteringar:</label>
+                <textarea id="notes" name="notes" placeholder="Ange valfri notering (frivilligt)"></textarea>
+                <input type="submit" class="inputBtn" value="Lägg till">
+            </form>
+        </section>
+
+        <div id="fullDateHeading"></div>
         <div class="ChangeWeekBtn" id="reduceWeek">
         </div>
-        <div id="fullDateHeading"></div>
         <div class="ChangeWeekBtn" id="incrementWeek">
         </div>
     </header>
@@ -26,7 +48,7 @@
         <h2>Ändra eller ta bort event</h2>
 
         <form id="EditForm">
-            <input type="hidden" id="custId" name="id" value="">
+            <input type="hidden" id="custId" name="id">
             <label for="editTitle">Ändra event:</label>
             <input type="text" id="editTitle" name="editTitle" required>
             <label for="editDate">Ändra datum:</label>
@@ -89,27 +111,6 @@
 
     </main>
 
-    <div id="postDataContainer">
-        <button id="postDataEventBtn">Lägg till nytt event</button>
-    </div>
-    <section id="postContainer" class="formPosition" hidden>
-        <button id="closePostContainerBtn">X</button>
-        <h2>Nytt event</h2>
-        <form id="postForm">
-            <input type="hidden" id="custId" name="id" value="">
-            <label for="title">Event:</label>
-            <input type="text" id="title" name="title" placeholder="möte" required>
-            <label for="date">Datum:</label>
-            <input type="date" id="date" name="date" required>
-            <label for="starttime">Starttid:</label>
-            <input type="time" id="starttime" name="starttime" placeholder="14:25" required>
-            <label for="endtime">Sluttid:</label>
-            <input type="time" id="endtime" name="endtime" placeholder="15:00" required>
-            <label for="notes">Noteringar:</label>
-            <textarea id="notes" name="notes" placeholder="Ange valfri notering (frivilligt)"></textarea>
-            <input type="submit" class="inputBtn" value="Lägg till">
-        </form>
-    </section>
 
     <script type="text/javascript" src="/script.js"></script>
 </body>

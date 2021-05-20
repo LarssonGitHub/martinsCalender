@@ -61,7 +61,8 @@ function validatePostEvent(body) {
 
 // function validatePutEvent(id, body) {
 function validatePutEvent(id, body) {
-
+    console.log(id);
+    console.log("thhhhhhh", body.id);
     try {
         if (body.editTitle === "testfail") {
             throw `you failed test`;
@@ -69,7 +70,7 @@ function validatePutEvent(id, body) {
 
         // Update product
         const updateEvent = {
-            id: body.id,
+            id: id,
             title: body.editTitle || "you shouldn't see this",
             date: body.editDate || "you shouldn't see this",
             starttime: body.editStarttime || "you shouldn't see this",
@@ -77,6 +78,7 @@ function validatePutEvent(id, body) {
             notes: body.editNotes || "Inga noteringar angivna"
         }
 
+    
         let filterOutPut = filterOut(id);
         filterOutPut.push(updateEvent);
         writeToJsonArray(filterOutPut)

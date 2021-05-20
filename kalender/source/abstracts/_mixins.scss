@@ -7,10 +7,10 @@
   }
 
   @mixin mainBorderBox {
-    border-top: 2px double $borderColor;
+    border-top: 3px double $borderColor;
     border-right: none;
     border-bottom: none;
-    border-left: 5px double $borderColor;
+    border-left: 6px double $borderColor;
     border-radius: 1rem 0.5rem 0.2rem;
   }
   @mixin btnStyle {
